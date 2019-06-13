@@ -1,0 +1,6 @@
+overrides:
+  - files: .bablerc
+    options:
+      parser: json
+printWidth: 120
+singleQuote: true
