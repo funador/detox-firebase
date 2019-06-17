@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
 
 import db from './firebase';
-
+import testID from './testID';
 export default class App extends Component {
   state = {
     message: null,
@@ -33,19 +33,29 @@ export default class App extends Component {
     if (message) {
       return (
         <View style={container}>
-          <Text style={header}>{message}</Text>
+          <Text style={header} {...testID('docText')}>
+            {message}
+          </Text>
         </View>
       );
     }
 
     return (
-      <View testID="welcome" style={container}>
+      <View {...testID('testview')} style={container}>
         <Text style={header}>Welcome</Text>
-        <TouchableOpacity testID="helloWorld" onPress={this.onButtonPress('Hello World')}>
+        <TouchableOpacity
+          {...testID('helloWorld')}
+          // testID="helloWorld"
+          onPress={this.onButtonPress('Hello World')}
+        >
           <Text style={link}>{doc ? doc.world : 'Loading'}</Text>
         </TouchableOpacity>
-        <TouchableOpacity testID="helloDetox" onPress={this.onButtonPress('Hello Detox')}>
-          <Text style={link}>Detox</Text>
+        <TouchableOpacity
+          {...testID('helloAppium')}
+          // accessibilityLabel="helloAppium"
+          onPress={this.onButtonPress('Hello Appium')}
+        >
+          <Text style={link}>Appium</Text>
         </TouchableOpacity>
       </View>
     );

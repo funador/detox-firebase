@@ -4,7 +4,13 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest"
+    "test": "E2E_DEVICE=\"*\" jest --testMatch=\"**/__tests__/**/!(*e2e.js)\"",
+    "appium": "appium",
+    "test:e2e": "jest --testMatch=\"**/__tests__/**/*e2e.js\"",
+    "test:e2e:android": "E2E_DEVICE=\"android-emulator\" npm run test:e2e",
+    "test:e2e:ios": "E2E_DEVICE=\"ios-emulator\"  npm run test:e2e",
+    "fresh-ios": "react-native run-ios --configuration Release && npm run test:e2e:ios",
+    "fresh-android": "cd android && ./gradlew assembleRelease && cd .. && npm run test:e2e:android"
   },
   "dependencies": {
     "firebase": "6.0.2",
@@ -14,24 +20,30 @@
   "devDependencies": {
     "@babel/core": "7.4.5",
     "@babel/runtime": "7.4.5",
+    "appium": "^1.13.0",
+    "appium-doctor": "^1.10.0",
     "babel-jest": "24.8.0",
-    "detox": "^12.11.0",
     "jest": "24.8.0",
     "metro-react-native-babel-preset": "0.54.1",
-    "react-test-renderer": "16.8.3"
+    "react-test-renderer": "16.8.3",
+    "wd": "^1.11.2"
   },
   "jest": {
     "preset": "react-native"
   },
-  "detox": {
-    "configurations": {
-      "ios.sim.debug": {
-        "binaryPath": "ios/build/Build/Products/Debug-iphonesimulator/HelloDetox.app",
-        "build": "xcodebuild -project ios/HelloDetox.xcodeproj -scheme HelloDetox -configuration Debug -sdk iphonesimulator -derivedDataPath ios/build",
-        "type": "ios.simulator",
-        "name": "iPhone Xʀ"
+  "e2e": {
+    "devices": {
+      "ios-emulator": {
+        "platformName": "iOS",
+        "platformVersion": "12.2",
+        "deviceName": "iPhone X",
+        "app": "/ios/build/HelloDetox/Build/Products/Release-iphonesimulator/HelloDetox.app"
+      },
+      "android-emulator": {
+        "platformName": "Android",
+        "deviceName": "Android Emulator",
+        "app": "/android/app/build/outputs/apk/release/app-release.apk"
       }
-    },
-    "test-runner": "jest"
+    }
   }
 }
